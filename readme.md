@@ -80,8 +80,12 @@ Global variables, if uninitialized, will be auto initialized to 0.
 
 ## Static global variables
 
+## Tips
+* Enter EOF in Linux - `Ctl+D`
+
 ## Questions
 1. For `main` method, is there any restriction for return type?
+    Int is usually preferred to tell status of the program to execution environment. 
 
 ## References
 1. [Pluralsight - C Programming Fundamentals](https://app.pluralsight.com/player?course=c-lang-fundamentals&author=kenny-kerr&name=c-m1-introduction&clip=5&mode=live)
