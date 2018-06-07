@@ -5,6 +5,7 @@ float charCounter();
 float lineCounter();
 void blankTabNewlineCounter();
 void removeExtraBlanks();
+void replaceTabBackspaceBackslash();
 
 
 int main(void){
@@ -22,7 +23,10 @@ int main(void){
 
     // blankTabNewlineCounter();
 
-    removeExtraBlanks();
+    // removeExtraBlanks();
+
+    replaceTabBackspaceBackslash();
+    
 }
 
 void testEOF(){
@@ -88,6 +92,26 @@ void removeExtraBlanks(){
         }
 
         if(blankCount == 0 || blankCount == 1){
+            putchar(currentChar);
+        }
+    }
+}
+
+void replaceTabBackspaceBackslash(){
+    // 1-10. without switch.
+    char currentChar;
+
+    while((currentChar = getchar()) != EOF){
+        if(currentChar == '\t'){ // tab
+            putchar('\\');
+            putchar('t');
+        } else if (currentChar == '\b') {
+            putchar('\\');
+            putchar('b');
+        } else if (currentChar == '\\') {
+            putchar('\\');
+            putchar('\\');
+        } else{
             putchar(currentChar);
         }
     }
