@@ -1,11 +1,19 @@
 #include <stdio.h>
 
+#define IN 1 /* inside the word */
+#define OUT 2 /* outside a word */
+#define ASCII_a 97
+#define ASCII_z (122 + 1)
+
 void testEOF();
 float charCounter();
 float lineCounter();
 void blankTabNewlineCounter();
 void removeExtraBlanks();
 void replaceTabBackspaceBackslash();
+void printWordPerLine();
+void wordLenghHistogram();
+void uniqueCharsHistogram();
 
 
 int main(void){
@@ -25,8 +33,15 @@ int main(void){
 
     // removeExtraBlanks();
 
-    replaceTabBackspaceBackslash();
-    
+    // replaceTabBackspaceBackslash();
+
+    // printWordPerLine();
+
+    // wordLenghHistogram();
+
+    uniqueCharsHistogram();
+
+    return 0;
 }
 
 void testEOF(){
@@ -115,4 +130,105 @@ void replaceTabBackspaceBackslash(){
             putchar(currentChar);
         }
     }
+}
+
+void printWordPerLine(){
+    // 1-12
+    char currentChar;
+    int state = OUT;
+
+    while((currentChar = getchar()) != EOF){
+       
+        if(currentChar == ' ' || currentChar == '\t'){
+           if(state == IN){
+                putchar('\n');
+           }
+           state = OUT;
+        } else {
+            state = IN;
+            putchar(currentChar);
+        }
+       
+    }
+}
+
+void wordLenghHistogram(){
+    // 1-13
+    char currentChar;
+    int currentWordLength = 0;
+    int state = OUT;
+    int histogram[10]; // histogram with words upto 10 char in length
+
+    for(int i = 0; i < 10; ++i){
+        histogram[i] = 0;
+    }
+
+    while((currentChar = getchar()) != EOF){
+        if(currentChar == ' ' || currentChar == '\t' || currentChar == '\n'){
+           if(state == IN){
+                histogram[currentWordLength - 1] += 1;
+                currentWordLength = 0;
+           }
+           state = OUT;
+        } else {
+            state = IN;
+            ++currentWordLength;
+        }
+
+    }
+
+    printf("%s %s \n", "|Word Length|", "|Frequency|");
+    printf("%s %s \n", " __________", "  _________");
+    for(int j = 0; j < 10; ++j){
+        
+        if(histogram[j] > 0){
+            printf("%7d %12d", j+1, histogram[j]);
+
+            if(histogram[j] > 0){
+                int len = histogram[j];
+                while(len){
+                    putchar('-');
+                    --len;
+                }
+            }
+            
+            putchar('\n');
+        }
+    }
+}
+
+
+void uniqueCharsHistogram(){
+    // 1-14
+    // assuming only small chars. 97 - 122
+    int charCount = 0;
+    int chars[ASCII_z];
+    char currentChar;
+
+    for(int i = 0; i < ASCII_z; ++i){
+        chars[i] = 0;
+    }
+
+    while((currentChar = getchar()) != EOF){
+        if(currentChar >= 'a' && currentChar <= 'z'){
+            chars[currentChar] += 1;
+        }
+    }
+    
+    for(int i = ASCII_a; i < ASCII_z; ++i){
+        if(chars[i] == 0){
+            continue;
+        }
+
+        printf("%7c %12d", i, chars[i]);
+
+        int len = chars[i];
+        while(len){
+            putchar('-');
+            --len;
+        }
+
+        putchar('\n');
+    }
+
 }
